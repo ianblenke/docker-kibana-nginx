@@ -23,6 +23,10 @@ CONFDIR=/etc/nginx/conf
 [ -n "$CONFDIR/*" ] && rm -f $CONFDIR/*
 
 cat <<EOF > $CONFDIR/default.conf
+upstream elasticsearch {
+  server $ES_HOST:$ES_PORT;
+  keepalive 15;
+}
 server {
   listen                *:$PORT ;
   server_name           $HOST;
@@ -39,11 +43,6 @@ server {
   proxy_http_version 1.1;
   proxy_set_header Connection "Keep-Alive";
   proxy_set_header Proxy-Connection "Keep-Alive";
-
-  upstream elasticsearch {
-    server $ES_HOST:$ES_PORT;
-    keepalive 15;
-  }
 
   location / {
     proxy_pass http://${KIBANA_HOST}:${KIBANA_PORT};
