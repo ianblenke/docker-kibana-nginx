@@ -17,9 +17,12 @@ cat <<EOM
 
 EOM
 
-rm -f /var/nginx/conf/*
+CONFDIR=/etc/nginx/conf
+[ -d /etc/nginx/conf.d ] && CONFDIR=/etc/nginx/conf.d
 
-cat <<EOF > /var/nginx/conf/default.conf
+[ -n "$CONFDIR/*" ] && rm -f $CONFDIR/*
+
+cat <<EOF > $CONFDIR/default.conf
 events {
     worker_connections  1024;
 }
