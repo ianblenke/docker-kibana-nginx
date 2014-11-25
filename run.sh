@@ -23,9 +23,6 @@ CONFDIR=/etc/nginx/conf
 [ -n "$CONFDIR/*" ] && rm -f $CONFDIR/*
 
 cat <<EOF > $CONFDIR/default.conf
-events {
-    worker_connections  1024;
-}
 server {
   listen                *:$PORT ;
   server_name           $HOST;
