@@ -5,7 +5,7 @@ set -e
 
 PORT=${PORT:-80}
 USERNAME=${USERNAME:-kibana}
-PASSWORD=${PASSWORD:-killerbananakablammo}
+PASSWORD=${PASSWORD:-kablammo}
 ES_HOST=${ES_HOST:-172.17.42.1}
 ES_PORT=${ES_PORT:-9200}
 
