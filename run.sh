@@ -8,14 +8,12 @@ USERNAME=${USERNAME:-kibana}
 PASSWORD=${PASSWORD:-killerbananakablammo}
 ES_HOST=${ES_HOST:-172.17.42.1}
 ES_PORT=${ES_PORT:-9200}
-KIBANA_HOST=${KIBANA_HOST:-172.17.42.1}
-KIBANA_PORT=${KIBANA_PORT:-8090}
 
 echo "$USERNAME:$(openssl passwd -crypt $PASSWORD)" > /passwords
 
-cat <<EOM
+sed -i + -e 's%elasticsearch:.*9200",%elasticsearch: "http://foo.bar.com",%' /app/config.js
 
-EOM
+grep elasticsearch: /app/config.js
 
 CONFDIR=/etc/nginx/conf
 [ -d /etc/nginx/conf.d ] && CONFDIR=/etc/nginx/conf.d
@@ -44,8 +42,14 @@ server {
   proxy_set_header Connection "Keep-Alive";
   proxy_set_header Proxy-Connection "Keep-Alive";
 
+  proxy_set_header X-ELB-IP \$remote_addr;
+  proxy_set_header X-ELB-Forwarded-For \$proxy_add_x_forwarded_for;
+  proxy_set_header Host $HOST;
+  proxy_set_header Referer $HOST;
+
   location / {
-    proxy_pass http://${KIBANA_HOST}:${KIBANA_PORT};
+   root /app;
+   index  index.html  index.htm;
   }
   location ~ ^/_aliases\$ {
     proxy_pass http://elasticsearch;
@@ -68,7 +72,7 @@ server {
   location ~ ^/kibana-int/temp.*\$ {
     proxy_pass http://elasticsearch;
   }
-}
+
 EOF
 
 cat $CONFDIR/default.conf
