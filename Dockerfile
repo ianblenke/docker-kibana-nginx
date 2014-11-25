@@ -3,7 +3,7 @@ MAINTAINER Ian Blenke <ian@blenke.com>
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y nginx-full wget
+    apt-get install -y wget
 RUN wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.2.tar.gz -O /tmp/kibana.tar.gz && \
     mkdir -p /app && \
     tar zxf /tmp/kibana.tar.gz && mv kibana-3.1.2/* /app
