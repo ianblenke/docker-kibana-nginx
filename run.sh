@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -e
 
 [ -n "$HOST" ] || ( echo "HOST required - You must supply the FQDN of the public host"; false )
 
@@ -72,6 +72,7 @@ server {
   location ~ ^/kibana-int/temp.*\$ {
     proxy_pass http://elasticsearch;
   }
+}
 
 EOF
 
