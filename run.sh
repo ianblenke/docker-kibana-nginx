@@ -26,8 +26,8 @@ cat <<EOF > $CONFDIR/default.conf
 server {
   listen                *:$PORT ;
   server_name           $HOST;
-  access_log            /dev/stdout
-  error_log             /dev/stdout
+  access_log            /dev/stdout;
+  error_log             /dev/stdout;
 
   if (\$http_x_forwarded_proto != 'https') {
     rewrite ^ https://\$host$request_uri? permanent;
