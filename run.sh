@@ -17,9 +17,9 @@ cat <<EOM
 
 EOM
 
-rm -f /var/nginx/conf.d/*
+rm -f /var/nginx/conf/*
 
-cat <<EOF > /var/nginx/conf.d/default.conf
+cat <<EOF > /var/nginx/conf/default.conf
 events {
     worker_connections  1024;
 }
