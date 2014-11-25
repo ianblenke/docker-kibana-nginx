@@ -71,5 +71,7 @@ server {
 }
 EOF
 
+cat $CONFDIR/default.conf
+
 exec nginx -g "daemon off;"
 
