@@ -74,10 +74,8 @@ server {
     proxy_pass http://elasticsearch;
   }
 }
-
 EOF
 
-cat $CONFDIR/default.conf
-
+echo Starting nginx
 exec nginx -g "daemon off;"
 
