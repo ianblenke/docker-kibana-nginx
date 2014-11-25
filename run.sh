@@ -26,7 +26,7 @@ upstream elasticsearch {
   keepalive 15;
 }
 server {
-  listen                \*:80 ;
+  listen                *:80 ;
   server_name           $HOST;
   access_log            /dev/stdout;
   error_log             /dev/stdout;
