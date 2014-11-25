@@ -11,7 +11,7 @@ ES_PORT=${ES_PORT:-9200}
 
 echo "$USERNAME:$(openssl passwd -crypt $PASSWORD)" > /passwords
 
-sed -i + -e 's%elasticsearch:.*9200",%elasticsearch: "http://foo.bar.com",%' /app/config.js
+sed -i -e 's%elasticsearch:.*9200",%elasticsearch: "http://foo.bar.com",%' /app/config.js
 
 grep elasticsearch: /app/config.js
 
