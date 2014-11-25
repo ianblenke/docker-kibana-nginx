@@ -3,7 +3,7 @@ set -e
 
 [ -n "$HOST" ] || ( echo "HOST required - You must supply the FQDN of the public host"; false )
 
-PORT=${PORT:-80}
+SCHEME=${SCHEME:-https}
 USERNAME=${USERNAME:-kibana}
 PASSWORD=${PASSWORD:-kablammo}
 ES_HOST=${ES_HOST:-172.17.42.1}
@@ -11,7 +11,7 @@ ES_PORT=${ES_PORT:-9200}
 
 echo "$USERNAME:$(openssl passwd -crypt $PASSWORD)" > /passwords
 
-sed -i -e 's%elasticsearch:.*9200",%elasticsearch: "http://foo.bar.com",%' /app/config.js
+sed -i -e 's%elasticsearch:.*9200",%elasticsearch: "'$SCHEME'://'$HOST'",%' /app/config.js
 
 grep elasticsearch: /app/config.js
 
@@ -26,11 +26,12 @@ upstream elasticsearch {
   keepalive 15;
 }
 server {
-  listen                *:$PORT ;
+  listen                \*:80 ;
   server_name           $HOST;
   access_log            /dev/stdout;
   error_log             /dev/stdout;
 
+  # Enforce SSL
   if (\$http_x_forwarded_proto != 'https') {
     rewrite ^ https://\$host$request_uri? permanent;
   } 
